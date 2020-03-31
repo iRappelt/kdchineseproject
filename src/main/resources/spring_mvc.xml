@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--1.开启Springioc 自动扫描注解包  只对mvc的包做扫描  -->
+    <context:component-scan base-package="com.cdut.kdchinese.controller"/>
+
+    <!--2. 开启注解，对jackson数据支持   解耦操作  耦合度 -->
+    <mvc:annotation-driven/>
+
+    <!-- 静态资源管理一：将静态资源交由servlet容器管理 还需要在web.xml中配置default servlet -->
+    <!--<mvc:default-servlet-handler/>-->
+
+    <!-- 静态资源管理二：将静态资源交由spring管理，放行以下静态资源 -->
+    <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/images/**" location="/images/" />
+    <mvc:resources mapping="/*.html" location="/html/" />
+    <mvc:resources mapping="/" location="/html/" />
+
+    <!--3.配置视图解析器  -->
+    <!-- 配置视图解析器:如何把handle方法返回值解析为实际的物理视图
+         name="prefix"代表前面的目录，为空代表根目录  name="suffix"代表返回的地址为后缀为.JSP的文件 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 拦截所有控制器 -->
+            <mvc:mapping path="/**"/>
+            <!-- 放行的资源  上面的放行静态资源是将静态资源交由spring管理，不会出现404，但是还是会经过拦截器 -->
+            <mvc:exclude-mapping path="/css/**" />
+            <mvc:exclude-mapping path="/js/**" />
+            <mvc:exclude-mapping path="/images/**" />
+            <bean id="loginInterceptor" class="com.cdut.kdchinese.interceptor.LoginInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

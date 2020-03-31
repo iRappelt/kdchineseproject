@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <!-- 本地数据库驱动程序jar包的全路径 -->
+    <!--<classPathEntry location="E:\IdeaProjects\dlycrm\web\WEB-INF\lib\mysql-connector-java-5.1.6.jar"/>-->
+
+    <!-- 指定mybatis版本 -->
+    <context id="context" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库的相关配置 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/character?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Hongkong"
+                        userId="root"
+                        password="fff252852">
+            <!-- 解决mysql 8版本会生成用户下多个数据库下的同名表的问题
+                 如果设为false 那么会查找指定userId用户下所有数据库中的表
+                 如果设为true 只会查找指定url下的数据库下的表-->
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
+        <!--指定生成的类型为java类型，避免数据库中number等类型字段 -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- POJO实体类生成的位置  修改targetPackage和targetProject
+         前者最好指定生成一个新package，因为逆向工程会直接覆盖原来包中相同的文件名
+         后者如果不是用的maven，直接就写src-->
+        <javaModelGenerator targetPackage="com.cdut.kdchinese.generator" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- *Mapper.xml 文件的位置  修改targetPackage和targetProject-->
+        <sqlMapGenerator targetPackage="com.cdut.kdchinese.generator" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- Mapper 接口文件的位置  修改targetPackage和targetProject-->
+        <javaClientGenerator targetPackage="com.cdut.kdchinese.generator" targetProject="src/main/java"
+                             type="XMLMAPPER">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!-- 相关表的配置 多表就配置多个  tableName表名  domainObjectName类名 -->
+        <table tableName="user" domainObjectName="User" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false"/>
+
+        <!--<table tableName="bumen" domainObjectName="BuMen" enableCountByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--enableUpdateByExample="false"/>-->
+
+        <!--<table tableName="zhiwei" domainObjectName="ZhiWei" enableCountByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--enableUpdateByExample="false"/>-->
+    </context>
+</generatorConfiguration>
