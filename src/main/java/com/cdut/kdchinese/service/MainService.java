@@ -19,7 +19,7 @@ public class MainService {
     @Resource
     private UserMapper userMapper;
 
-    public List<User> getAll(){
+    public List<User> selAll(){
         return userMapper.selectAll();
     }
 

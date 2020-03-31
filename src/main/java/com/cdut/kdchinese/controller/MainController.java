@@ -25,6 +25,6 @@ public class MainController {
     @RequestMapping(value = "/showuser", method = RequestMethod.GET)
     @ResponseBody
     public List<User> showUser(){
-        return mainService.getAll();
+        return mainService.selAll();
     }
 }
