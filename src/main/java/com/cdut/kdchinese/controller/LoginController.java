@@ -1,17 +1,17 @@
 package com.cdut.kdchinese.controller;
 
 import com.cdut.kdchinese.pojo.User;
-import com.cdut.kdchinese.service.LoginService;
+import com.cdut.kdchinese.service.UserService;
+import com.cdut.kdchinese.util.Result;
+import com.cdut.kdchinese.util.ResultCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -24,44 +24,72 @@ import java.util.Map;
 @Controller
 public class LoginController {
     @Resource
-    private LoginService loginService;
+    private UserService userService;
 
     @RequestMapping(value="/getuser", method = RequestMethod.GET)
     @ResponseBody
     public User getUserById(Integer id){
-        return loginService.selUserById(id);
+        return userService.selUserById(id);
     }
 
     @RequestMapping(value = "/chklogin", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> chkLogin(@RequestBody Map<String, String> map, HttpServletRequest request){
+    public Result chkLogin(@RequestBody Map<String, String> map, HttpServletRequest request){
         //根据用户名判断是否有这个用户
         String username = map.get("username");
-        User user = loginService.selUserByUN(username);
-        if(user!=null){//如果有这个用户
-            //查询密码判断密码是否正确
-            String dbPassword = loginService.selPwdByUN(username);
+        User user = userService.selUserByUN(username);
+        //如果有这个用户断密码是否正确
+        if(user!=null){
+            String dbPassword = userService.selPwdByUN(username);
             //前端传过来的密码进行md5加密
             String password = map.get("password");
             String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
-            if(md5Password.equals(dbPassword)){//密码正确
+            //密码正确
+            if(md5Password.equals(dbPassword)){
                 //设置用户session
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 //返回成功信息
-                map.put("status", "200");
-                map.put("message", "登陆成功");
-
+                return Result.success();
             }else {//密码错误
                 //返回失败信息
-                map.put("status", "10001");
-                map.put("message", "登录失败，密码输入错误");
+
+                return Result.failure(ResultCode.USER_LOGIN_ERROR);
             }
         } else{//没这个用户
             //返回失败信息
-            map.put("status", "10002");
-            map.put("message", "登录失败，用户名不存在");
+            return Result.failure(ResultCode.USER_LOGIN_ERROR);
         }
-        return map;
+    }
+
+
+
+    @RequestMapping(value = "/get_session_user", method = RequestMethod.GET)
+    @ResponseBody
+    public Result getSessionUser(HttpServletRequest req){
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        if(user!=null){
+            // 重新获取用户信息
+            User newUser = userService.selUserByUN(user.getUsername());
+            // 更新session信息，以便一直保持用户最新状态
+            session.setAttribute("user", newUser);
+            return Result.success(newUser);
+        }else{
+            return Result.failure(ResultCode.USER_SESSION_ERROR);
+        }
+    }
+
+    /**
+     * 用户退出清除session
+     * @param req HttpServletRequest对象
+     * @return Result
+     */
+    @GetMapping("/remove_session_user")
+    @ResponseBody
+    public Result rmvSessionUser(HttpServletRequest req){
+        HttpSession session = req.getSession();
+        session.removeAttribute("user");
+        return Result.success();
     }
 }

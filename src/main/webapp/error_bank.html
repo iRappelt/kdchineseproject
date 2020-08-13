@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="js/error_bank.js"></script>
+</head>
+<body>
+<div class="layui-tab layui-tab-card" lay-filter="error-bank-filter">
+    <ul class="layui-tab-title">
+        <li class="layui-this" id="word-error">汉字错题</li>
+        <li id="pinyin-error">拼音错题</li>
+        <li>待定</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show" id="word-error-content"></div>
+        <div class="layui-tab-item" id="pinyin-error-content"></div>
+        <div class="layui-tab-item">待定</div>
+    </div>
+</div>
+
+<!-- 数据表格所需操作组件 -->
+<!-- 行操作bar -->
+<script type="text/html" id="lineBarDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<!-- 头部操作bar -->
+<script type="text/html" id="headBarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i></button>
+        <button class="layui-btn layui-btn-sm" lay-event="delete"><i class="layui-icon">&#xe640;</i></button>
+        <button class="layui-btn layui-btn-sm" lay-event="refresh"><i class="layui-icon">&#xe669;</i></button>
+    </div>
+</script>
+</body>
+</html>

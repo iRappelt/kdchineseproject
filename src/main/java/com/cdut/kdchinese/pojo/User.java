@@ -1,7 +1,12 @@
 package com.cdut.kdchinese.pojo;
 
-import java.util.Date;
-
+/**
+ * Created with IntelliJ IDEA.
+ * Date: 2020/03/26 17:46
+ * Description:
+ * Version: V1.0
+ * @author iRappelt
+ */
 public class User {
       
     private Integer uid;

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="js/exercise01.js"></script>
+</head>
+<body>
+<div class="layui-tab layui-tab-brief" lay-filter="exercise01-grade-filter">
+    <ul class="layui-tab-title">
+        <li class="layui-this">一年级</li>
+        <li>二年级</li>
+        <li>三年级</li>
+        <li>四年级</li>
+        <li>五年级</li>
+        <li>六年级</li>
+    </ul>
+    <div class="layui-tab-content" style="height: 100px;">
+        <div class="layui-tab-item layui-show" id="exercise01-grade01"></div>
+        <div class="layui-tab-item" id="exercise01-grade02"></div>
+        <div class="layui-tab-item" id="exercise01-grade03"></div>
+        <div class="layui-tab-item" id="exercise01-grade04"></div>
+        <div class="layui-tab-item" id="exercise01-grade05"></div>
+        <div class="layui-tab-item" id="exercise01-grade06"></div>
+    </div>
+</div>
+
+<!-- 数据表格所需操作组件 -->
+<!-- 行操作bar -->
+<script type="text/html" id="lineBarDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<!-- 头部操作bar -->
+<script type="text/html" id="headBarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i></button>
+        <button class="layui-btn layui-btn-sm" lay-event="delete"><i class="layui-icon">&#xe640;</i></button>
+        <button class="layui-btn layui-btn-sm" lay-event="refresh"><i class="layui-icon">&#xe669;</i></button>
+    </div>
+</script>
+</body>
+</html>

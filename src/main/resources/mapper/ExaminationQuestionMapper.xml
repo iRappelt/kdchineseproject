@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdut.kdchinese.pojo.ExaminationQuestionMapper">
+
+    <select id="selAllCount" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM examination_questions
+    </select>
+
+    <select id="findByPage" resultType="com.cdut.kdchinese.pojo.ExaminationQuestion">
+        SELECT *
+        FROM examination_questions
+        LIMIT #{arg0},#{arg1}
+    </select>
+
+    <select id="findQuestioninfoByPapersIds" resultType="com.cdut.kdchinese.pojo.ExaminationQuestion">
+        select * from examination_questions  where paper_id=#{id}
+    </select>
+
+    <insert id="addQuestioninfo" parameterType="com.cdut.kdchinese.pojo.ExaminationQuestion">
+        insert into examination_questions(question_content,qA,qB,qC,qD,question_score,question_answer,question_type,paper_id)value (#{question_content},#{qA},#{qB},#{qC},#{qD},#{question_score},#{question_answer},#{question_type},#{paper_id})
+    </insert>
+
+    <update id="modifyQuestioninfo" parameterType="com.cdut.kdchinese.pojo.ExaminationQuestion">
+        update  examination_questions set question_content=#{question_content},qA=#{qA},qB=#{qB},qC=#{qC},qD=#{qD},question_score=#{question_score},question_answer=#{question_answer},question_type=#{question_type},paper_id=#{paper_id} where qid=#{qid}
+    </update>
+
+    <delete id="delQuestioninfoById" parameterType="java.lang.Integer">
+        delete from  examination_questions where qid=#{qid}
+    </delete>
+
+    <delete id="delQuestioninfoBatch"  parameterType="com.cdut.kdchinese.pojo.ExaminationQuestion">
+        delete  from examination_questions
+        <where>
+            <if test="ids != null and ids.size()>0">
+                <foreach collection="ids" open="and qid in (" close=")" item="id" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+
+    </delete>
+
+
+</mapper>

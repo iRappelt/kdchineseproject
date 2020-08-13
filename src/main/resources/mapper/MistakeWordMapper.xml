@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdut.kdchinese.pojo.MistakeWordMapper">
+
+    <select id="selAllCount" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM word_error_bank
+    </select>
+
+    <select id="findByPage" resultType="com.cdut.kdchinese.pojo.MistakeWord">
+        SELECT *
+        FROM word_error_bank
+        LIMIT #{arg0},#{arg1}
+    </select>
+
+    <insert id="addMistakeinfo" parameterType="com.cdut.kdchinese.pojo.MistakeWord">
+        insert into word_error_bank(word,pinyin,title,word_grade,frequency,user_id)value (#{word},#{pinyin},#{title},#{word_grade},#{frequency},#{user_id})
+    </insert>
+
+    <update id="modifyMistakeinfo" parameterType="com.cdut.kdchinese.pojo.MistakeWord">
+        update  word_error_bank set word=#{word},pinyin=#{pinyin},title=#{title},word_grade=#{word_grade},frequency=#{frequency},user_id=#{user_id} where id=#{id}
+    </update>
+
+    <delete id="delMistakeinfoById" parameterType="java.lang.Integer">
+        delete from  word_error_bank where id=#{id}
+    </delete>
+
+    <delete id="delMistakeinfoBatch"  parameterType="com.cdut.kdchinese.pojo.MistakeWord">
+        delete  from word_error_bank
+        <where>
+            <if test="ids != null and ids.size()>0">
+                <foreach collection="ids" open="and id in (" close=")" item="id" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+
+    </delete>
+
+
+</mapper>

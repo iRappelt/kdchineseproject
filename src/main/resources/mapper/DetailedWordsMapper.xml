@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdut.kdchinese.pojo.DetailedWordsMapper">
+
+    <!--表字段与类属性的映射-->
+    <resultMap id="BaseResultMap" type="com.cdut.kdchinese.pojo.DetailedWords">
+        <id column="word_id" jdbcType="INTEGER" property="wordId" />
+        <result column="word_name" jdbcType="VARCHAR" property="wordName" />
+        <result column="word_pinyin" jdbcType="VARCHAR" property="wordPinYin" />
+        <result column="word_pianpang" jdbcType="VARCHAR" property="wordPianPang" />
+        <result column="word_bihua_num" jdbcType="INTEGER" property="wordBiHuaNum" />
+        <result column="word_bishun" jdbcType="VARCHAR" property="wordBiShun" />
+        <result column="word_bishun_code" jdbcType="VARCHAR" property="wordBiShunCode" />
+        <result column="word_phrase" jdbcType="VARCHAR" property="wordPhrase" />
+        <result column="word_explain" jdbcType="VARCHAR" property="wordExplain" />
+        <result column="word_gif" jdbcType="VARCHAR" property="wordGif" />
+        <result column="word_grade" jdbcType="VARCHAR" property="wordGrade" />
+    </resultMap>
+
+    <!--sql复用语句-->
+    <sql id="Detail_Column_List">
+        word_id, word_name, word_pinyin, word_pianpang, word_bihua_num, word_bishun, word_bishun_code, word_phrase, word_explain, word_gif, word_grade
+    </sql>
+
+    <update id="updateByPrimaryKey" parameterType="com.cdut.kdchinese.pojo.DetailedWords">
+        update detailed_words
+        set word_name = #{wordName,jdbcType=VARCHAR},
+          word_pinyin = #{wordPinYin,jdbcType=VARCHAR},
+          word_pianpang = #{wordPianPang,jdbcType=VARCHAR},
+          word_bihua_num = #{wordBiHuaNum,jdbcType=VARCHAR},
+          word_bishun = #{wordBiShun,jdbcType=VARCHAR},
+          word_bishun_code = #{wordBiShunCode,jdbcType=VARCHAR},
+          word_phrase = #{wordPhrase,jdbcType=VARCHAR},
+          word_explain = #{wordExplain,jdbcType=VARCHAR},
+          word_gif = #{wordGif,jdbcType=VARCHAR},
+          word_grade = #{wordGrade,jdbcType=VARCHAR},
+        where word_id = #{wordId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.cdut.kdchinese.pojo.DetailedWords">
+        update detailed_words
+        <set>
+            <trim>
+                <if test="wordName != null">
+                    word_name = #{wordName,jdbcType=VARCHAR},
+                </if>
+                <if test="wordPinYin != null">
+                    word_pinyin = #{wordPinYin,jdbcType=VARCHAR},
+                </if>
+                <if test="wordPianPang != null">
+                    word_pianpang = #{wordPianPang,jdbcType=VARCHAR},
+                </if>
+                <if test="wordBiHuaNum != null">
+                    word_bihua_num = #{wordBiHuaNum,jdbcType=VARCHAR},
+                </if>
+                <if test="wordBiShun != null">
+                    word_bishun = #{wordBiShun,jdbcType=VARCHAR},
+                </if>
+                <if test="wordBiShunCode != null">
+                    word_bishun_code = #{wordBiShunCode,jdbcType=VARCHAR},
+                </if>
+                <if test="wordPhrase != null">
+                    word_phrase = #{wordPhrase,jdbcType=VARCHAR},
+                </if>
+                <if test="wordExplain != null">
+                    word_explain = #{wordExplain,jdbcType=VARCHAR},
+                </if>
+                <if test="wordGif != null">
+                    word_gif = #{wordGif,jdbcType=VARCHAR},
+                </if>
+                <if test="wordGrade != null">
+                    word_grade = #{wordGrade,jdbcType=VARCHAR},
+                </if>
+            </trim>
+        </set>
+        where word_id = #{wordId,jdbcType=INTEGER}
+    </update>
+
+    <delete id="batchDeleteByPrimaryKey">
+        delete from detailed_words
+        where word_id IN
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+       delete from detailed_words
+       where word_id = #{wordId,jdbcType=INTEGER}
+    </delete>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 
+            <include refid="Detail_Column_List"/>
+        from detailed_words
+        where word_id = #{wordId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByWordName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+            <include refid="Detail_Column_List"/>
+        from detailed_words
+        where word_name = #{wordName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectPinYinByWordName" parameterType="java.lang.String" resultType="java.lang.String">
+        select
+            word_pinyin
+        from detailed_words
+        where word_name = #{wordName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectWordNameByPinYin" parameterType="java.lang.String" resultType="java.lang.String">
+        select
+            word_name
+        from detailed_words
+        where word_pinyin = #{wordPinYin,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+            <include refid="Detail_Column_List"/>
+        from detailed_words
+        LIMIT #{arg0},#{arg1}
+    </select>
+
+    <insert id="insert" parameterType="com.cdut.kdchinese.pojo.DetailedWords">
+        insert into detailed_words (word_id, word_name, word_pinyin, word_pianpang,
+            word_bihua_num, word_bishun, word_bishun_code, word_phrase,
+            word_explain, word_gif, word_grade)
+        values (word_id = #{wordId,jdbcType=INTEGER},
+          word_name = #{wordName,jdbcType=VARCHAR},
+          word_pinyin = #{wordPinYin,jdbcType=VARCHAR},
+          word_pianpang = #{wordPianPang,jdbcType=VARCHAR},
+          word_bihua_num = #{wordBiHuaNum,jdbcType=VARCHAR},
+          word_bishun = #{wordBiShun,jdbcType=VARCHAR},
+          word_bishun_code = #{wordBiShunCode,jdbcType=VARCHAR},
+          word_phrase = #{wordPhrase,jdbcType=VARCHAR},
+          word_explain = #{wordExplain,jdbcType=VARCHAR},
+          word_gif = #{wordGif,jdbcType=VARCHAR},
+          word_grade = #{wordGrade,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.cdut.kdchinese.pojo.DetailedWords">
+        insert into detailed_words
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="wordId != null">
+                word_id,
+            </if>
+            <if test="wordName != null">
+                word_name,
+            </if>
+            <if test="wordPinYin != null">
+                word_pinyin,
+            </if>
+            <if test="wordPianPang != null">
+                word_pianpang,
+            </if>
+            <if test="wordBiHuaNum != null">
+                word_bihua_num,
+            </if>
+            <if test="wordBiShun != null">
+                word_bishun,
+            </if>
+            <if test="wordBiShunCode != null">
+                word_bishun_code,
+            </if>
+            <if test="wordPhrase != null">
+                word_phrase,
+            </if>
+            <if test="wordExplain != null">
+                word_explain,
+            </if>
+            <if test="wordGif != null">
+                word_gif,
+            </if>
+            <if test="wordGrade != null">
+                word_grade,
+            </if>
+        </trim>
+        <trim prefix="value (" suffix=")" suffixOverrides=",">
+            <if test="wordId != null">
+                #{wordId,jdbcType=INTEGER},
+            </if>
+            <if test="wordName != null">
+                #{wordName,jdbcType=VARCHAR},
+            </if>
+            <if test="wordPinYin != null">
+                #{wordPinYin,jdbcType=VARCHAR},
+            </if>
+            <if test="wordPianPang != null">
+                #{wordPianPang,jdbcType=VARCHAR},
+            </if>
+            <if test="wordBiHuaNum != null">
+                #{wordBiHuaNum,jdbcType=VARCHAR},
+            </if>
+            <if test="wordBiShun != null">
+                #{wordBiShun,jdbcType=VARCHAR},
+            </if>
+            <if test="wordBiShunCode != null">
+                #{wordBiShunCode,jdbcType=VARCHAR},
+            </if>
+            <if test="wordPhrase != null">
+                #{wordPhrase,jdbcType=VARCHAR},
+            </if>
+            <if test="wordExplain != null">
+                #{wordExplain,jdbcType=VARCHAR},
+            </if>
+            <if test="wordGif != null">
+                #{wordGif,jdbcType=VARCHAR},
+            </if>
+            <if test="wordGrade != null">
+                #{wordGrade,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectAllCount" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM detailed_words
+  </select>
+
+</mapper>

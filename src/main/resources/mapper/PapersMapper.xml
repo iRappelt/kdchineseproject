@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdut.kdchinese.pojo.PapersMapper">
+    
+    <resultMap id="papersQuestionMap" type="com.cdut.kdchinese.pojo.Papers">
+        <id property="pid" column="pid"></id>
+        <result property="paper_name" column="paper_name"></result>
+        <result property="paper_des" column="paper_des"></result>
+        <result property="paper_date" column="paper_date"></result>
+        <result property="publish" column="publish"></result>
+        <result property="class_id" column="class_id"></result>
+
+        <collection property="examinationQuestions" ofType="com.cdut.kdchinese.pojo.ExaminationQuestion">
+            <id property="qid" column="qid"></id>
+            <result property="question_content" column="question_content"></result>
+            <result property="qA" column="qA"></result>
+            <result property="qB" column="qB"></result>
+            <result property="qC" column="qC"></result>
+            <result property="qD" column="qC"></result>
+            <result property="question_score" column="question_score"></result>
+            <result property="question_answer" column="question_answer"></result>
+            <result property="question_type" column="question_type"></result>
+            <result property="paper_id" column="paper_id"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findQuestionByPaperId" resultMap="papersQuestionMap">
+        select * from  papers p left outer join examination_questions e on p.pid=e.paper_id where p.pid=#{id}
+    </select>
+
+    <select id="selAllCount" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM papers
+    </select>
+
+
+
+    <select id="findByPage" resultType="com.cdut.kdchinese.pojo.Papers">
+        SELECT *
+        FROM papers
+        LIMIT #{arg0},#{arg1}
+    </select>
+
+    <insert id="addPapersinfo" parameterType="com.cdut.kdchinese.pojo.Papers" >
+        insert into papers(paper_name,paper_des,paper_date,publish,class_id)value (#{paper_name},#{paper_des},#{paper_date},#{publish},#{class_id})
+        <selectKey keyProperty="pid" order="AFTER" resultType="java.lang.Integer">
+
+            SELECT LAST_INSERT_ID()
+
+        </selectKey>
+    </insert>
+
+    <update id="modifyPapersinfo" parameterType="com.cdut.kdchinese.pojo.Papers">
+        update  papers
+        <set>
+            <if test="paper_name != null">
+                paper_name = #{paper_name},
+            </if>
+            <if test="paper_des != null">
+                paper_des = #{paper_des},
+            </if>
+            <if test="paper_date != null">
+                paper_date = #{paper_date},
+            </if>
+            <if test="publish != null">
+                publish = #{publish},
+            </if>
+            <if test="class_id != class_id">
+                class_id = #{class_id},
+            </if>
+
+        </set>
+        where pid = #{pid}
+    </update>
+
+    <update id="modifyPublish" parameterType="java.lang.Integer" >
+        update papers set publish=1 where pid = #{id}
+    </update>
+
+    <delete id="delPapersinfoById" parameterType="java.lang.Integer">
+        delete from  papers where pid=#{pid}
+    </delete>
+
+    <delete id="delPapersinfoBatch"  parameterType="com.cdut.kdchinese.pojo.Papers">
+        delete  from papers
+        <where>
+            <if test="ids != null and ids.size()>0">
+                <foreach collection="ids" open="and pid in (" close=")" item="id" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+
+    </delete>
+
+    <delete id="deleteExamByClassId" parameterType="java.lang.Integer">
+        delete from papers
+        where class_id = #{class_id}
+    </delete>
+
+
+
+</mapper>

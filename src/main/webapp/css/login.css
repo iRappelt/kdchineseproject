@@ -91,7 +91,7 @@ input[type="button"]:hover {
     color:white;
 }
 
-a#regista,a#forgeta{
+a#regist,a#forget{
     color:#d3d7f7;
     font-size: 12px;
     margin-left: 15px;
@@ -130,6 +130,18 @@ p#message {
     height: 30px;
 }
 
-.loginbar,.logobar,.keybar{
+.iconBar{
     position: relative;
+}
+
+.validation {
+    position: absolute;
+    top: 2px;
+    left: 100px;
+    width: 120px;
+    height: 40px;
+}
+
+#validateCode {
+    cursor: pointer;
 }

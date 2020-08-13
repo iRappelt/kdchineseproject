@@ -1,8 +1,9 @@
 package com.cdut.kdchinese.controller;
 
 import com.cdut.kdchinese.pojo.User;
-import com.cdut.kdchinese.service.LoginService;
-import com.cdut.kdchinese.service.RegisterService;
+import com.cdut.kdchinese.service.UserService;
+import com.cdut.kdchinese.util.Result;
+import com.cdut.kdchinese.util.ResultCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -26,49 +28,42 @@ import java.util.Map;
 @Controller
 public class RegisterController {
     @Resource
-    private RegisterService registerService;
-    @Resource
-    private LoginService loginService;
+    private UserService userService;
 
-    @RequestMapping(value = "/chkregister",method = RequestMethod.POST)
+    @RequestMapping(value = "/check_register",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> regist(@RequestBody Map<String, String> map){
+    public Result regist(@RequestBody Map<String, Object> map){
         //判断用户是否已经存在
-        User u1 = loginService.selUserByUN(map.get("username"));
+        User u1 = userService.selUserByUN((String)map.get("username"));
         if(u1!=null){
-            map.put("status","20003");
-            map.put("message","用户名已存在");
-            return map;
+            return Result.failure(ResultCode.USER_HAS_EXIST);
         }
         //判断电话号码是否已经被注册
-        User u2 = registerService.selUserByTel(map.get("telephone"));
+        User u2 = userService.selUserByTel((String)map.get("telephone"));
         if(u2!=null){
-            map.put("status","20004");
-            map.put("message","电话号码已被注册");
-            return map;
+            // 已被注册
+            return Result.failure(ResultCode.USER_PHONE_REGISTED);
         }
         //接下来进行注册操作
         //声明user容器
         User user = new User();
         //获得前端参数
-        user.setTelephone(map.get("telephone"));
-        String md5password = DigestUtils.md5DigestAsHex(map.get("password").getBytes());
+        user.setTelephone((String)map.get("telephone"));
+        String md5password = DigestUtils.md5DigestAsHex(((String)map.get("password")).getBytes());
         user.setPassword(md5password);
         user.setIdentity("teacher");
-        user.setUsername(map.get("username"));
+        user.setUsername((String)map.get("username"));
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String nowTime = df.format(new Date());
         user.setRegistdate(nowTime);
         //注册
-        int result = registerService.insUserSelective(user);
+        int result = userService.insUserSelective(user);
         if(result==1){
-            map.put("status", "200");
-            map.put("message", "注册成功");
+            // 成功
+            return Result.success();
         }else{
-            map.put("status", "20001");
-            map.put("message", "注册失败，sql返回不是1");
+            // 注册失败
+            return Result.failure(ResultCode.USER_REGISTER_FAILED);
         }
-
-        return map;
     }
 }

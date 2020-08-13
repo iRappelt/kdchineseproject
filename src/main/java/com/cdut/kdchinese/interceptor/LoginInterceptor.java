@@ -36,7 +36,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         } else if(user==null){
             //重定向到登录页面
-            httpServletResponse.sendRedirect("/kdchinese/login.html");
+            httpServletResponse.sendRedirect("login.html");
             return false;
         } else {
             //放行

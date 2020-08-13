@@ -176,3 +176,7 @@ a.selected {
     color: white;
     background-color: rgb(233, 104, 107);
 }
+
+#logo_title {
+    cursor: pointer;
+}

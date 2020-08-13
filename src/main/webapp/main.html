@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="images/weblogo.ico" />
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="layui/layui.js"></script>
+    <script src="js/main.js"></script>
+    <title>快对语文</title>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo"><span id="logo_title" style="cursor: pointer;">快对语文 后台管理</span></div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;" id="username">
+                    <img class="layui-nav-img" id="avatar">
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="#info" id="user_info">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="#logout" id="logout">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll" >
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="sideNav" id="identity_nav">
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;" id="content">
+            <p>快对语文后台管理系统</p>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 . All rights reserved.-->
+        Copyright © 2020 KDChinese
+    </div>
+</div>
+
+<!--  user.html所需弹出层界面 -->
+<!-- 编辑弹出层的页面 -->
+<div class="layui-row"  id="editForm" style="display:none">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="editFilter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password" required required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="telephone" required lay-verify="required|phone" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <label>
+                        <select name="sex" required lay-verify="required">
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">身份</label>
+                <div class="layui-input-block">
+                    <label>
+                        <input type="text" name="identity" disabled="disabled" required lay-verify="required" autocomplete="off" class="layui-input">
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">年级</label>
+                <div class="layui-input-block">
+                    <label>
+                        <select name="grade" required lay-verify="required">
+                            <option value="one">一年级</option>
+                            <option value="two">二年级</option>
+                            <option value="three">三年级</option>
+                            <option value="four">四年级</option>
+                            <option value="five">五年级</option>
+                            <option value="six">六年级</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="edit*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- 添加弹出层的页面 -->
+<div class="layui-row"  id="addForm" style="display:none;">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="addFilter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password"  required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="telephone" required lay-verify="required|phone" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <label>
+                        <select name="sex" required lay-verify="required">
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">身份</label>
+                <div class="layui-input-block">
+                    <label>
+                        <select name="identity" required lay-verify="required">
+                            <option value="student" >学生</option>
+                            <option value="teacher">老师</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">年级</label>
+                <div class="layui-input-block">
+                    <label>
+                        <select name="grade" required lay-verify="required">
+                            <option value="one">一年级</option>
+                            <option value="two">二年级</option>
+                            <option value="three">三年级</option>
+                            <option value="four">四年级</option>
+                            <option value="five">五年级</option>
+                            <option value="six">六年级</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="add*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<!--  exercise01.html所需弹出层界面 -->
+<!-- 编辑弹出层的页面 -->
+<div class="layui-row"  id="exercise01-editForm" style="display:none">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="exercise01-edit-filter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">答案</label>
+                <div class="layui-input-block">
+                    <input type="text" name="answer" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">拼音</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pinyin" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">声母</label>
+                <div class="layui-input-block">
+                    <input type="text" name="shengmu" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">韵母</label>
+                <div class="layui-input-block">
+                    <input type="text" name="yunmu" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">题目</label>
+                <div class="layui-input-block">
+                    <input type="text" name="question" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="exercise01-edit*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- 添加弹出层的页面 -->
+<div class="layui-row"  id="exercise01-addForm" style="display:none;">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="exercise01-add-filter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">答案</label>
+                <div class="layui-input-block">
+                    <input type="text" name="answer" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">拼音</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pinyin"  required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">声母</label>
+                <div class="layui-input-block">
+                    <input type="text" name="shengmu" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">韵母</label>
+                <div class="layui-input-block">
+                    <input type="text" name="yunmu" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">题目</label>
+                <div class="layui-input-block">
+                    <input type="text" name="question" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="exercise01-add*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--  word.html所需弹出层界面 -->
+<!-- 编辑弹出层的页面 -->
+<div class="layui-row"  id="word-edit-form" style="display:none">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="word-edit-filter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">汉字</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">拼音</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pinyin" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">偏旁</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pianpang" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">笔画数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="bihuanum" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">笔顺</label>
+                <div class="layui-input-block">
+                    <input type="text" name="bishun" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">笔顺码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="bishuncode" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">词组</label>
+                <div class="layui-input-block">
+                    <input type="text" name="phrase" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">解释</label>
+                <div class="layui-input-block">
+                    <input type="text" name="explain" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">GIF</label>
+                <div class="layui-input-block">
+                    <input type="text" name="gif" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属年级</label>
+                <div class="layui-input-block">
+                    <input type="text" name="grade" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="word-edit*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- 添加弹出层的页面 -->
+<div class="layui-row"  id="word-add-form" style="display:none;">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="word-add-filter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">汉字</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">拼音</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pinyin" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">偏旁</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pianpang" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">笔画数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="bihuanum" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">笔顺</label>
+                <div class="layui-input-block">
+                    <input type="text" name="bishun" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">笔顺码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="bishuncode" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">词组</label>
+                <div class="layui-input-block">
+                    <input type="text" name="phrase" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">解释</label>
+                <div class="layui-input-block">
+                    <input type="text" name="explain" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">GIF</label>
+                <div class="layui-input-block">
+                    <input type="text" name="gif" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属年级</label>
+                <div class="layui-input-block">
+                    <input type="text" name="grade" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="word-add*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--  word_error.html所需弹出层界面 -->
+<!-- 编辑弹出层的页面 -->
+<div class="layui-row"  id="word-error-edit-form" style="display:none">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="word-error-edit-filter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">答案</label>
+                <div class="layui-input-block">
+                    <input type="text" name="answer" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">拼音</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pinyin" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">题目</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属年级</label>
+                <div class="layui-input-block">
+                    <input type="text" name="grade" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">频次</label>
+                <div class="layui-input-block">
+                    <input type="text" name="frequency" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户id</label>
+                <div class="layui-input-block">
+                    <input type="text" name="userid" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="word-error-edit*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- 添加弹出层的页面 -->
+<div class="layui-row"  id="word-error-add-form" style="display:none;">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="word-error-add-filter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">答案</label>
+                <div class="layui-input-block">
+                    <input type="text" name="answer" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">拼音</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pinyin" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">题目</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属年级</label>
+                <div class="layui-input-block">
+                    <input type="text" name="grade" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">频次</label>
+                <div class="layui-input-block">
+                    <input type="text" name="frequency" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户id</label>
+                <div class="layui-input-block">
+                    <input type="text" name="userid" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="word-error-add*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--  pinyin_error.html所需弹出层界面 -->
+<!-- 编辑弹出层的页面 -->
+<div class="layui-row"  id="pinyin-error-edit-form" style="display:none">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="pinyin-error-edit-filter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">答案</label>
+                <div class="layui-input-block">
+                    <input type="text" name="answer" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">汉字</label>
+                <div class="layui-input-block">
+                    <input type="text" name="word" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">题目</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属年级</label>
+                <div class="layui-input-block">
+                    <input type="text" name="grade" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">频次</label>
+                <div class="layui-input-block">
+                    <input type="text" name="frequency" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户id</label>
+                <div class="layui-input-block">
+                    <input type="text" name="userid" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="pinyin-error-edit*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- 添加弹出层的页面 -->
+<div class="layui-row"  id="pinyin-error-add-form" style="display:none;">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="pinyin-error-add-filter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">答案</label>
+                <div class="layui-input-block">
+                    <input type="text" name="answer" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">汉字</label>
+                <div class="layui-input-block">
+                    <input type="text" name="word" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">题目</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属年级</label>
+                <div class="layui-input-block">
+                    <input type="text" name="grade" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">频次</label>
+                <div class="layui-input-block">
+                    <input type="text" name="frequency" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户id</label>
+                <div class="layui-input-block">
+                    <input type="text" name="userid" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="pinyin-error-add*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<!--  class.html所需弹出层界面 -->
+<!-- 编辑弹出层的页面 -->
+<div class="layui-row"  id="class-edit-form" style="display:none">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="class-edit-filter" >
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">班级名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">班级邀请码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="code" disabled="disabled" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">班级人数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="number"  disabled="disabled" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">创建日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="date" disabled="disabled" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="class-edit*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- 添加弹出层的页面 -->
+<div class="layui-row"  id="class-add-form" style="display:none;">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="class-add-filter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">班级名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="class-add*">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<!--  student.html所需弹出层界面 -->
+<!-- 添加弹出层的页面 -->
+<div class="layui-row"  id="stu-add-form" style="display:none;">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="stu-add-filter">
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label"> 学生手机号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="telephone" required lay-verify="required|phone" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="stu-add*">添加</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--  exam.html所需弹出层界面 -->
+<!-- 添加弹出层的页面 -->
+<div class="layui-row"  id="exam-add-form" style="display:none">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="exam-add-filter" id="exam_add_clear">
+
+            <div class="layui-form-item" >
+                <label class="layui-form-label">试卷标题</label>
+                <div class="layui-input-block">
+                    <div class="layui-input-block">
+                     <input type="text" autocomplete="off" class="layui-input" name="exam_title">
+                       </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item" >
+                <label class="layui-form-label">试卷描述</label>
+                <div class="layui-input-block">
+                    <div class="layui-input-block">
+                        <input type="text" autocomplete="off" class="layui-input" name="exam_des">
+                    </div>
+                </div>
+            </div>
+            <hr class="layui-bg-red"/>
+
+            <div class="layui-form-item" id="choose_add_area">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn layui-btn-normal" id="add_choose">添加选择题</button>
+                    <button type="button" class="layui-btn layui-btn-normal" id="delete_choose">删除上个选择题</button>
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="fill_add_area">
+                <div class="layui-input-block">
+                    <hr class="layui-bg-red"/>
+                    <button type="button" class="layui-btn layui-btn-normal" id="add_fill">添加选择题</button>
+                    <button type="button" class="layui-btn layui-btn-normal" id="delete_fill">删除上个填空题</button>
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="exam_add_area">
+                <div class="layui-input-block">
+                    <hr class="layui-bg-red"/>
+                    <button class="layui-btn" lay-submit lay-filter="exam-add*">创建完成</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- 查看弹出层的页面 -->
+<div class="layui-row"  id="exam-edit-form" style="display:none">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+        <form class="layui-form layui-form-pane" lay-filter="exam-edit-filter" id="exam_edit_clear">
+            <div class="layui-form-item" >
+                <label class="layui-form-label">题目</label>
+                <div class="layui-input-block">
+                    <div class="layui-input-block">
+                        <input type="text" autocomplete="off" class="layui-input" id="exam_title_area">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item" >
+                <label class="layui-form-label">题目描述</label>
+                <div class="layui-input-block">
+                    <div class="layui-input-block">
+                        <input type="text" autocomplete="off" class="layui-input" id="exam_des_area">
+                    </div>
+                </div>
+            </div>
+            <hr class="layui-bg-red"/>
+
+            <div class="layui-form-item" id="choose_edit_area">
+                <div class="layui-input-block">
+                    <hr class="layui-bg-red"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="fill_edit_area">
+                <div class="layui-input-block">
+                    <hr class="layui-bg-red"/>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+<!--  main.html所需弹出层界面 -->
+<!-- 编辑个人信息弹出层的页面 -->
+<div class="layui-row"  id="infoForm" style="display:none">
+    <div class="layui-col-md10" style="margin-left: 35px;">
+
+        <form class="layui-form layui-form-pane" lay-filter="editFilter" id="user_info_form">
+            <div class="layui-upload">
+                <div class="layui-upload-list">
+                    <img class="layui-upload-img" style="width: 150px;height: 150px;margin-left: 127px;border:1px solid;border-radius:75px;" id="avatar_preview">
+                    <p id="demoText"></p>
+                </div>
+                <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="avatar_upload"><i class="layui-icon layui-icon-picture"></i>选择头像</button>
+                <button type="button" class="layui-btn" id="avatar_upload_sure"><i class="layui-icon">&#xe67c;</i>上传头像</button>
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin-top: 15px;">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password" required required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="telephone" required lay-verify="required|phone" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <label>
+                        <select name="sex" required lay-verify="required">
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">身份</label>
+                <div class="layui-input-block">
+                    <label>
+                        <input type="text" name="identity" disabled="disabled" required lay-verify="required" autocomplete="off" class="layui-input">
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">年级</label>
+                <div class="layui-input-block">
+                    <label>
+                        <select name="grade" required lay-verify="required">
+                            <option value="one">一年级</option>
+                            <option value="two">二年级</option>
+                            <option value="three">三年级</option>
+                            <option value="four">四年级</option>
+                            <option value="five">五年级</option>
+                            <option value="six">六年级</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="info_edit*">设置完成</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置数据</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+</body>
+</html>

@@ -25,6 +25,12 @@
     SELECT
       <include refid="Base_Column_List" />
     FROM user
+    LIMIT #{arg0},#{arg1}
+  </select>
+
+  <select id="selectAllCount" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM user
   </select>
 
   <select id="selectUserByUN" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -55,6 +61,14 @@
     WHERE telephone = #{telephone}
   </select>
 
+  <delete id="batchDeleteByPK">
+    delete from user
+    where uid IN
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+  </delete>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where uid = #{uid,jdbcType=INTEGER}
@@ -67,7 +81,7 @@
       )
     values (#{uid,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{identity,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{headimg,jdbcType=VARCHAR}, 
-      #{registdate,jdbcType=TIMESTAMP}, #{sex,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}
+      #{registdate,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}
       )
   </insert>
 
@@ -122,7 +136,7 @@
         #{headimg,jdbcType=VARCHAR},
       </if>
       <if test="registdate != null">
-        #{registdate,jdbcType=TIMESTAMP},
+        #{registdate,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
         #{sex,jdbcType=VARCHAR},
@@ -152,7 +166,7 @@
         headimg = #{headimg,jdbcType=VARCHAR},
       </if>
       <if test="registdate != null">
-        registdate = #{registdate,jdbcType=TIMESTAMP},
+        registdate = #{registdate,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
         sex = #{sex,jdbcType=VARCHAR},
@@ -171,7 +185,7 @@
       identity = #{identity,jdbcType=VARCHAR},
       username = #{username,jdbcType=VARCHAR},
       headimg = #{headimg,jdbcType=VARCHAR},
-      registdate = #{registdate,jdbcType=TIMESTAMP},
+      registdate = #{registdate,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       grade = #{grade,jdbcType=VARCHAR}
     where uid = #{uid,jdbcType=INTEGER}

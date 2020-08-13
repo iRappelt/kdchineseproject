@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="images/weblogo.ico" />
+    <title>欢迎登陆后台管理系统-快对语文</title>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/Particleground.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/login.css"/>
+</head>
+<body>
+<div id="logindiv">
+    <p id="message"></p>
+    <table id="logintable">
+        <tr>
+            <td>
+                <div class="iconBar">
+                    <div class="logoicon" style="opacity: 0.5;">
+                        <img src="images/login_icon.png"/>
+                    </div>
+                    <p id="welcome"><b>快对语文</b>CMS</p>
+                </div>
+                <div class="iconBar">
+                    <div class="icon" style="opacity: 0.5;">
+                        <img src="images/user_icon.png"/>
+                    </div>
+                    <input placeholder="账号" type="text" name="username" autocomplete="off"/><br/>
+                </div>
+                <div class="iconBar">
+                    <div class="icon" style="opacity: 0.5;">
+                        <img src="images/key_icon.png"/>
+                    </div>
+                    <input placeholder="密码" type="password" name="password" autocomplete="off"/><br/>
+                </div>
+                <div class="iconBar">
+                    <div class="icon" style="opacity: 0.5;">
+                        <img src="images/lock_icon.png"/>
+                    </div>
+                    <input placeholder="验证码" maxlength="4" type="text" name="code" autocomplete="off"/><br/>
+                    <div class="validation" style="opacity: 1">
+                        <canvas id="validateCode"></canvas>
+                    </div>
+                </div>
+                <a id="regist" href="#">教师注册</a><a id="forget" href="#">忘记密码</a>
+
+                <input type="button" value="登录"/>
+            </td>
+        </tr>
+    </table>
+
+</div>
+</body>
+</html>

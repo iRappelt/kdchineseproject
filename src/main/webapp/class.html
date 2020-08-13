@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="js/class.js"></script>
+</head>
+<body>
+<table id='showClass' lay-filter='classTableFilter' class="layui-table" lay-size="sm"></table>
+
+
+<!-- 数据表格所需操作组件 -->
+<!-- 行操作bar -->
+<script type="text/html" id="lineBarDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<!-- 头部操作bar -->
+<script type="text/html" id="headBarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i></button>
+        <button class="layui-btn layui-btn-sm" lay-event="delete"><i class="layui-icon">&#xe640;</i></button>
+        <button class="layui-btn layui-btn-sm" lay-event="refresh"><i class="layui-icon">&#xe669;</i></button>
+    </div>
+</script>
+
+</body>
+</html>

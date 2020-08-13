@@ -1,7 +1,9 @@
 package com.cdut.kdchinese.console;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,9 +15,6 @@ import java.util.Date;
 public class test {
 
     public static void main(String[] args) {
-        Timestamp time = new Timestamp(new Date().getTime());
-        System.out.println(time);
-        java.sql.Date date = new java.sql.Date(new Date().getTime());
-        System.out.println(date);
+
     }
 }

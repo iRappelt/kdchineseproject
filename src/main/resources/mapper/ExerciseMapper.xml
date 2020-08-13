@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdut.kdchinese.pojo.ExerciseMapper">
+  <resultMap id="BaseResultMap" type="com.cdut.kdchinese.pojo.Exercise">
+
+    <id column="word_id" jdbcType="INTEGER" property="wordId" />
+    <result column="word_name" jdbcType="VARCHAR" property="wordName" />
+    <result column="word_pinyin" jdbcType="VARCHAR" property="wordPinyin" />
+    <result column="word_shengmu" jdbcType="VARCHAR" property="wordShengmu" />
+    <result column="word_yunmu" jdbcType="VARCHAR" property="wordYunmu" />
+    <result column="A" jdbcType="VARCHAR" property="a" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    word_id, word_name, word_pinyin, word_shengmu, word_yunmu, A
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from grade_one_phrase
+    where word_id = #{wordId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from
+    <if test="grade==1">
+      grade_one_phrase
+    </if>
+    <if test="grade==2">
+      grade_two_phrase
+    </if>
+    <if test="grade==3">
+      grade_three_phrase
+    </if>
+    <if test="grade==4">
+      grade_four_phrase
+    </if>
+    <if test="grade==5">
+      grade_five_phrase
+    </if>
+    <if test="grade==6">
+      grade_six_phrase
+    </if>
+    where word_id = #{wordId,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteMoreByPrimaryKey">
+    delete from
+    <if test="grade==1">
+      grade_one_phrase
+    </if>
+    <if test="grade==2">
+      grade_two_phrase
+    </if>
+    <if test="grade==3">
+      grade_three_phrase
+    </if>
+    <if test="grade==4">
+      grade_four_phrase
+    </if>
+    <if test="grade==5">
+      grade_five_phrase
+    </if>
+    <if test="grade==6">
+      grade_six_phrase
+    </if>
+    where word_id in
+    (
+    <foreach collection="list" item="wordId" separator=",">
+        #{wordId}
+    </foreach>
+    )
+  </delete>
+
+  <insert id="insert">
+    insert into
+    <if test="grade==1">
+      grade_one_phrase
+    </if>
+    <if test="grade==2">
+      grade_two_phrase
+    </if>
+    <if test="grade==3">
+      grade_three_phrase
+    </if>
+    <if test="grade==4">
+      grade_four_phrase
+    </if>
+    <if test="grade==5">
+      grade_five_phrase
+    </if>
+    <if test="grade==6">
+      grade_six_phrase
+    </if>
+    values (null, #{exercise.wordName,jdbcType=VARCHAR}, #{exercise.wordPinyin,jdbcType=VARCHAR},
+      #{exercise.wordShengmu,jdbcType=VARCHAR}, #{exercise.wordYunmu,jdbcType=VARCHAR}, #{exercise.a,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey">
+
+    update
+    <if test="grade==1">
+      grade_one_phrase
+    </if>
+    <if test="grade==2">
+      grade_two_phrase
+    </if>
+    <if test="grade==3">
+      grade_three_phrase
+    </if>
+    <if test="grade==4">
+      grade_four_phrase
+    </if>
+    <if test="grade==5">
+      grade_five_phrase
+    </if>
+    <if test="grade==6">
+      grade_six_phrase
+    </if>
+    set word_name = #{exercise.wordName,jdbcType=VARCHAR},
+      word_pinyin = #{exercise.wordPinyin,jdbcType=VARCHAR},
+      word_shengmu = #{exercise.wordShengmu,jdbcType=VARCHAR},
+      word_yunmu = #{exercise.wordYunmu,jdbcType=VARCHAR},
+      A = #{exercise.a,jdbcType=VARCHAR}
+    where word_id = #{exercise.wordId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from
+    <if test="grade==1">
+      grade_one_phrase
+    </if>
+    <if test="grade==2">
+      grade_two_phrase
+    </if>
+    <if test="grade==3">
+      grade_three_phrase
+    </if>
+    <if test="grade==4">
+      grade_four_phrase
+    </if>
+    <if test="grade==5">
+      grade_five_phrase
+    </if>
+    <if test="grade==6">
+      grade_six_phrase
+    </if>
+
+    limit #{pageStart},#{pageLimit}
+  </select>
+
+  <select id="selCount" resultType="java.lang.Integer">
+    select count(*)
+    from
+    <if test="grade==1">
+      grade_one_phrase
+    </if>
+    <if test="grade==2">
+      grade_two_phrase
+    </if>
+    <if test="grade==3">
+      grade_three_phrase
+    </if>
+    <if test="grade==4">
+      grade_four_phrase
+    </if>
+    <if test="grade==5">
+      grade_five_phrase
+    </if>
+    <if test="grade==6">
+      grade_six_phrase
+    </if>
+  </select>
+</mapper>
