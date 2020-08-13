@@ -12,7 +12,7 @@ $(document).ready(function () {
 
 
     // 调试
-    console.log("teacher_id="+sessionStorage.getItem('teacher_id'));
+    // console.log("teacher_id="+sessionStorage.getItem('teacher_id'));
 
     //为layui数据表格先建立基础表格
     //$('#content').append("<table id='showUser' lay-filter='userTableFilter' ></table>");

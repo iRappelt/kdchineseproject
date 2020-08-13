@@ -41,8 +41,8 @@ $(document).ready(function () {
     var class_ids = JSON.parse(sessionStorage.getItem('class_ids'));
 
     // 调试
-    console.log("class_names="+class_names);
-    console.log("class_ids="+class_ids);
+    // console.log("class_names="+class_names);
+    // console.log("class_ids="+class_ids);
 
     // 如果没有创建班级就直接返回
     if(class_ids.length<1){
