@@ -31,7 +31,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         HttpSession session = httpServletRequest.getSession();
         Object user = session.getAttribute("user");
         //放行条件
-        if(uri.endsWith("chklogin")||uri.endsWith("login.html")||uri.endsWith("chkregister")||uri.endsWith("register.html")){
+        if(uri.endsWith("chklogin")||uri.endsWith("login.html")||uri.endsWith("check_register")||uri.endsWith("register.html")){
             //放行
             return true;
         } else if(user==null){

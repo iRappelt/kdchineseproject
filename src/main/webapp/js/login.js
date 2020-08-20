@@ -133,9 +133,9 @@ $(document).ready(function() {
     });
 
     // 注册点击事件
-    $('#regist').on("click", function () {
-        alert("暂不提供注册功能");
-    })
+    // $('#regist').on("click", function () {
+    //     alert("暂不提供注册功能");
+    // })
 
 });
 //展示信息在界面上

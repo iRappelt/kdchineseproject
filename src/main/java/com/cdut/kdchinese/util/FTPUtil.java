@@ -90,7 +90,7 @@ public class FTPUtil {
             //2.创建FTPClient对象
             FTPClient ftp = FTPUtil.getFtpClient(host, port, username, password);
             if (ftp == null) {
-                return result;
+                throw new RuntimeException("ftp为null");
             }
             try {
                 //3.切换到上传目录
@@ -99,31 +99,36 @@ public class FTPUtil {
                     String[] dirs = filePath.split("/");
                     String tempPath = basePath;
                     for (String dir : dirs) {
-                        if (null == dir || "".equals(dir)) continue;
+                        if (null == dir || "".equals(dir)) {
+                            continue;
+                        }
                         tempPath += "/" + dir;
-                        //System.out.println(tempPath);
+//                        System.out.println(tempPath);
                         if (!ftp.changeWorkingDirectory(tempPath)) {
                             if (!ftp.makeDirectory(tempPath)) {
-                                return result;
+                                throw new RuntimeException("ftp创建文件夹失败");
                             } else {
                                 ftp.changeWorkingDirectory(tempPath);
                             }
                         }
                     }
                 }
-                //4.设置为被动模式 （一个问题，设置为被动模式后不能连接）
-                //ftp.enterLocalPassiveMode();
+                //4.设置为被动模式 （上传到服务器时，取消这个注释）
+//                ftp.enterLocalPassiveMode();
+                // 取消远程验证（上传到服务器时，取消这个注释）
+//                ftp.setRemoteVerificationEnabled(false);
                 //5.设置上传文件的类型为二进制类型
                 ftp.setFileType(FTP.BINARY_FILE_TYPE);
                 //6.上传文件
                 if (!ftp.storeFile(filename, input)) {
-                    return result;
+                    throw new RuntimeException("存储文件失败！-----------");
                 }
                 //7.关闭流
                 input.close();
                 result = true;
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new RuntimeException(e.getMessage());
             } finally {
                 //8.登出ftp
                 FTPUtil.closeFtpClient(ftp);

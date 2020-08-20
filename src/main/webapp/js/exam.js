@@ -28,8 +28,8 @@ $(document).ready(function () {
     var class_ids = JSON.parse(sessionStorage.getItem('class_ids'));
 
     // 调试
-    console.log("class_names="+class_names);
-    console.log("class_ids="+class_ids);
+    // console.log("class_names="+class_names);
+    // console.log("class_ids="+class_ids);
 
     // 如果没有创建班级就直接返回
     if (class_ids.length < 1) {
@@ -284,7 +284,7 @@ $(document).ready(function () {
                                 '            <div class="layui-form-item" id="fill_add_area">\n' +
                                 '                <div class="layui-input-block">\n' +
                                 '                    <hr class="layui-bg-red"/>\n' +
-                                '                    <button type="button" class="layui-btn layui-btn-normal" id="add_fill">添加选择题</button>\n' +
+                                '                    <button type="button" class="layui-btn layui-btn-normal" id="add_fill">添加填空题</button>\n' +
                                 '                    <button type="button" class="layui-btn layui-btn-normal" id="delete_fill">删除上个填空题</button>\n' +
                                 '                </div>\n' +
                                 '            </div>\n' +
