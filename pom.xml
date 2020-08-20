@@ -35,7 +35,7 @@
     <mchange-commons-java.version>0.2.3.4</mchange-commons-java.version>
     <!-- slf4j和log4j关联版本 -->
     <slf4j.version>1.7.21</slf4j.version>
-    <log4j2.version>2.6.2</log4j2.version>
+    <log4j2.version>2.13.3</log4j2.version>
     <!-- aspectj版本 -->
     <aspectj.version>1.8.10</aspectj.version>
     <!-- 文件上传和下载版本 -->
