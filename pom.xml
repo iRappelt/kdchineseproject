@@ -24,7 +24,7 @@
     <!-- spring版本 -->
     <spring.version>4.3.18.RELEASE</spring.version>
     <!-- mybits相关版本 -->
-    <mybatis.version>3.4.5</mybatis.version>
+    <mybatis.version>3.5.6</mybatis.version>
     <mybatis-spring.version>1.3.1</mybatis-spring.version>
     <!-- alibaba数据库连接池版本 -->
     <alibaba-druid.version>1.1.12</alibaba-druid.version>
