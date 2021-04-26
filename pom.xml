@@ -40,7 +40,7 @@
     <aspectj.version>1.8.10</aspectj.version>
     <!-- 文件上传和下载版本 -->
     <commons-fileupload.version>1.3.3</commons-fileupload.version>
-    <commons-io.version>2.4</commons-io.version>
+    <commons-io.version>2.7</commons-io.version>
     <!--FTP连接所用jar-->
     <commons-net.version>3.6</commons-net.version>
     <!-- json相关版本 -->
