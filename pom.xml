@@ -29,7 +29,7 @@
     <!-- alibaba数据库连接池版本 -->
     <alibaba-druid.version>1.1.12</alibaba-druid.version>
     <!-- mysql驱动版本 -->
-    <mysql-connector-java.version>8.0.18</mysql-connector-java.version>
+    <mysql-connector-java.version>8.0.28</mysql-connector-java.version>
     <!-- c3p0连接池相关版本 -->
     <c3p0.version>0.9.1.2</c3p0.version>
     <mchange-commons-java.version>0.2.3.4</mchange-commons-java.version>
