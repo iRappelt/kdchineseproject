@@ -44,7 +44,7 @@
     <!--FTP连接所用jar-->
     <commons-net.version>3.6</commons-net.version>
     <!-- json相关版本 -->
-    <jackson.version>2.8.7</jackson.version>
+    <jackson.version>2.13.4.1</jackson.version>
     <json-lib.version>2.4</json-lib.version>
     <!-- mybatis逆向工程版本 -->
     <mybatis-generator-core.version>1.3.6</mybatis-generator-core.version>
